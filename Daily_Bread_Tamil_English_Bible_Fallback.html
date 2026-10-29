@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#201b29">
+<title>Daily Bread | Holy Bible in Tamil & English</title>
+<style>
+:root{--bg:#f8f4ee;--ink:#292237;--muted:#766f7d;--purple:#392a50;--gold:#c7a45b;--card:#fffdf9;--line:#e8e0d7;--soft:#f0eaf7}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Noto Serif Tamil",serif;line-height:1.65}
+header{background:#211c27;color:#fff7e8;padding:18px max(20px,calc((100% - 1100px)/2));position:sticky;top:0;z-index:5;box-shadow:0 4px 18px #0002}
+.brand{font-size:clamp(22px,4vw,31px);font-weight:bold;letter-spacing:.7px}.brand span{color:var(--gold)}.tagline{font-size:13px;color:#d4c8de;margin-top:2px}
+nav{display:flex;gap:8px;overflow-x:auto;padding-top:15px}nav button{white-space:nowrap;border:1px solid #ffffff2b;background:transparent;color:#f8f0ff;padding:9px 14px;border-radius:25px;cursor:pointer;font:inherit;font-size:14px}nav button.active,nav button:hover{background:#5a456d;border-color:#5a456d}
+main{max-width:1100px;margin:auto;padding:24px 16px 60px}.hero{border-radius:24px;padding:28px 22px;background:radial-gradient(circle at 85% 20%,#f0dfb5 0,transparent 30%),linear-gradient(135deg,#eee6f5,#fffaf0);border:1px solid #e4d8e7;margin-bottom:24px}.eyebrow{color:#85652c;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:bold}.hero h1{font-size:clamp(28px,6vw,46px);line-height:1.18;margin:8px 0 12px}.hero p{color:#665c70;max-width:650px;margin:0 0 18px}.hero .verse{font-size:20px;margin-top:16px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;margin:18px 0;box-shadow:0 7px 24px #38234a08}.section-title{font-size:clamp(23px,4vw,30px);margin:0 0 6px}.sub{color:var(--muted);margin:0 0 18px;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field label{display:block;font-weight:bold;font-size:13px;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid #ded5e2;background:white;border-radius:12px;padding:12px;color:var(--ink);font:inherit;font-size:15px;min-height:46px}.field textarea{min-height:110px;resize:vertical}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.btn{border:0;border-radius:13px;padding:11px 17px;background:var(--purple);color:white;font:inherit;font-weight:bold;cursor:pointer}.btn.secondary{background:#f0eaf5;color:var(--purple);border:1px solid #e1d6eb}.btn.gold{background:#8a6b2f}.btn:disabled{opacity:.5;cursor:wait}
+.results{display:grid;gap:12px;margin-top:18px}.verse-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}.ref{font-weight:bold;color:#80602a;font-size:14px;margin-bottom:8px}.language{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:bold;margin-top:10px}.verse-text{font-size:18px;white-space:pre-wrap;overflow-wrap:anywhere}.tamil{font-family:"Noto Serif Tamil",Latha,serif;font-size:19px}.empty{padding:16px;border-radius:12px;background:#fff7e7;color:#655235}.status{padding:12px 14px;border-radius:12px;background:#f0eaf7;color:#4d3b61;margin:12px 0}.status.error{background:#fff0ed;color:#8a3324}.hidden{display:none!important}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}.quote{font-size:20px;line-height:1.7}.footer{text-align:center;color:var(--muted);font-size:12px;padding:22px 10px}.small{font-size:12px;color:var(--muted)}.loading{display:inline-block;width:14px;height:14px;border:2px solid #ddd;border-top-color:var(--purple);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle}@keyframes spin{to{transform:rotate(360deg)}}.daily-date{font-size:12px;color:#7d6336;letter-spacing:1px;text-transform:uppercase}
+@media(max-width:650px){header{padding:14px 16px}.grid,.two-col{grid-template-columns:1fr}.panel{padding:16px}.hero{padding:23px 18px}nav{padding-bottom:3px}main{padding-top:16px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">✝ <span>DAILY</span> BREAD</div>
+  <div class="tagline">One Word. Every Day. Tamil • English</div>
+  <nav aria-label="Main navigation">
+    <button class="active" data-tab="home">Home</button>
+    <button data-tab="read">Read Bible</button>
+    <button data-tab="search">Search</button>
+    <button data-tab="journal">Prayer Journal</button>
+    <button data-tab="saved">Saved Verses</button>
+  </nav>
+</header>
+<main>
+<section id="home" class="tab">
+  <div class="hero">
+    <div class="eyebrow">A quiet moment with God</div>
+    <h1>Let His Word light your day.</h1>
+    <p>Read Scripture in Tamil and English, explore all available Bible books and chapters, and keep your prayer notes in one peaceful place.</p>
+    <button class="btn" onclick="showTab('read')">Open the Holy Bible →</button>
+    <div class="panel" style="margin:22px 0 0;background:#ffffffb8">
+      <div class="daily-date" id="dailyDate">VERSE OF THE DAY</div>
+      <div id="dailyStatus" class="small">Loading today's verse…</div>
+      <div id="dailyVerse" class="quote"></div>
+      <div id="dailyRef" class="ref"></div>
+      <div class="actions"><button class="btn secondary" id="dailyOpen">Read this chapter</button><button class="btn secondary" id="dailySave">♡ Save verse</button></div>
+    </div>
+  </div>
+  <div class="panel">
+    <h2 class="section-title">Read the Bible your way</h2>
+    <p class="sub">Choose a book and chapter. Some Tamil translations may contain only the New Testament. Tamil and English text will be shown side by side when the chosen translations are available.</p>
+    <div class="actions"><button class="btn" onclick="showTab('read')">Choose Book & Chapter</button><button class="btn secondary" onclick="showTab('search')">Find a Verse</button></div>
+  </div>
+</section>
+
+<section id="read" class="tab hidden">
+  <div class="panel">
+    <h2 class="section-title">Read the Holy Bible</h2>
+    <p class="sub">Browse from Genesis to Revelation. Internet connection is required to load Scripture.</p>
+    <div id="apiStatus" class="status"><span class="loading"></span> Finding available Bible translations…</div>
+    <div class="grid">
+      <div class="field"><label for="enVersion">English translation</label><select id="enVersion"><option value="">Loading…</option></select></div>
+      <div class="field"><label for="taVersion">Tamil translation</label><select id="taVersion"><option value="">Finding Tamil versions…</option></select></div>
+      <div class="field"><label for="bookSelect">Book of the Bible</label><select id="bookSelect"><option value="">Loading books…</option></select></div>
+      <div class="field"><label for="chapterSelect">Chapter</label><select id="chapterSelect"><option>1</option></select></div>
+    </div>
+    <div class="actions"><button class="btn" id="loadChapter">Read Chapter</button><button class="btn secondary" id="prevChapter">← Previous</button><button class="btn secondary" id="nextChapter">Next →</button></div>
+  </div>
+  <div id="chapterHeading"></div><div id="chapterResults" class="results"></div>
+</section>
+
+<section id="search" class="tab hidden">
+  <div class="panel">
+    <h2 class="section-title">Find a Bible Verse</h2>
+    <p class="sub">Search by reference such as <b>Psalm 22:1</b> or <b>John 3:16</b>. You can also search words in the chapter you have opened.</p>
+    <div class="field"><label for="referenceInput">Bible reference</label><input id="referenceInput" placeholder="Example: Psalm 22:1 or John 3:16"></div>
+    <div class="actions"><button class="btn" id="searchRef">Find Verse</button><button class="btn secondary" id="searchCurrent">Search in opened chapter</button></div>
+    <div class="field" style="margin-top:16px"><label for="wordInput">Word or phrase in current chapter</label><input id="wordInput" placeholder="Example: love, faith, அன்பு, விசுவாசம்"></div>
+    <div id="searchStatus" class="small" style="margin-top:10px"></div>
+  </div>
+  <div id="searchResults" class="results"></div>
+</section>
+
+<section id="journal" class="tab hidden">
+  <div class="panel">
+    <h2 class="section-title">Prayer Journal</h2><p class="sub">Write your prayer, gratitude, or reflection. Notes are saved on this device's browser.</p>
+    <div class="field"><label for="journalDate">Date</label><input type="date" id="journalDate"></div>
+    <div class="field" style="margin-top:12px"><label for="journalText">My prayer / reflection</label><textarea id="journalText" placeholder="Dear Lord…"></textarea></div>
+    <div class="actions"><button class="btn" id="saveJournal">Save Note</button><button class="btn secondary" id="clearJournal">Clear this date</button></div>
+    <div id="journalStatus" class="small" style="margin-top:10px"></div>
+  </div>
+</section>
+
+<section id="saved" class="tab hidden">
+  <div class="panel"><h2 class="section-title">Saved Verses</h2><p class="sub">Keep meaningful verses close to your heart.</p><div id="savedResults" class="results"></div></div>
+</section>
+
+<div class="footer">Daily Bread • Scripture text is provided by the Free Use Bible API. Translation availability and wording may vary. Check your preferred printed Bible edition for exact wording.</div>
+</main>
+<script>
+const API='https://bible.helloao.org/api';
+let translations=[], englishBooks=[], tamilBooks=[], currentBook=null, currentChapter=1, chapterEnglish=[], chapterTamil=[], dailyData=null;
+const $=id=>document.getElementById(id);
+function showTab(id){document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden'));$(id).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));if(id==='saved')renderSaved();if(id==='journal')loadJournal();window.scrollTo({top:0,behavior:'smooth'});}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+function setStatus(id,msg,error=false){const el=$(id);el.textContent=msg;el.className=error?'status error':'status';}
+async function getJson(url){const r=await fetch(url);if(!r.ok)throw new Error('Request failed ('+r.status+')');return r.json();}
+function versionId(t){return t?.id||''}
+function getLang(t){return String(t.language||'').toLowerCase()+' '+String(t.languageName||'').toLowerCase()+' '+String(t.languageEnglishName||'').toLowerCase()+' '+String(t.name||'').toLowerCase()}
+function isTamil(t){return /\btam\b|tamil|தமிழ்/.test(getLang(t))}
+function isEnglish(t){return /\beng\b|english/.test(getLang(t))}
+function chooseTranslation(list,lang){if(lang==='en')return list.find(t=>/BSB/i.test(t.id))||list.find(t=>/WEB/i.test(t.id))||list.find(t=>/KJV/i.test(t.id))||list[0];return list.find(t=>/TAM/i.test(t.id+' '+t.shortName))||list[0]}
+function bookLabel(b){return b.commonName||b.title||b.name||b.id}
+function populateSelect(select,items,valueFn,labelFn){select.innerHTML='';items.forEach(item=>{let o=document.createElement('option');o.value=valueFn(item);o.textContent=labelFn(item);select.appendChild(o)})}
+async function init(){
+ try{
+  const data=await getJson(API+'/available_translations.json');translations=data.translations||[];
+  const ens=translations.filter(isEnglish), tas=translations.filter(isTamil);
+  if(!ens.length)throw new Error('No English translation found in the service.');
+  populateSelect($('enVersion'),ens,t=>t.id,t=>`${t.name||t.englishName||t.id} (${t.id})`);
+  const en=chooseTranslation(ens,'en');$('enVersion').value=en.id;
+  if(tas.length){populateSelect($('taVersion'),tas,t=>t.id,t=>`${t.name||t.englishName||t.id} (${t.id})`);$('taVersion').value=chooseTranslation(tas,'ta').id;}
+  else {$('taVersion').innerHTML='<option value="">No Tamil version available in this API</option>';}
+  await loadBooks();
+  const now=new Date();$('journalDate').value=now.toISOString().slice(0,10);$('dailyDate').textContent=now.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'}).toUpperCase();
+  await loadDaily();
+  setStatus('apiStatus',`Ready. ${ens.length} English and ${tas.length} Tamil translation(s) found. Choose a book and chapter. Some Tamil translations may contain only the New Testament.`);
+ }catch(e){setStatus('apiStatus','Could not connect to the Bible text service. Please check your internet connection and reload this page. '+e.message,true);$('dailyStatus').textContent='Verse of the day could not load. Please check your internet connection.';}
+}
+async function loadBooks(){
+ const enId=$('enVersion').value||$('taVersion').value;
+ if(!enId)return;
+ const d=await getJson(`${API}/${enId}/books.json`);englishBooks=d.books||[];
+ populateSelect($('bookSelect'),englishBooks,b=>b.id,b=>`${bookLabel(b)} — ${b.id}`);
+ if(!$('bookSelect').value&&englishBooks.length)$('bookSelect').value=englishBooks[0].id;
+ // Tamil translations can contain only the New Testament. Load their own book list
+ // instead of assuming their book IDs match the English translation.
+ tamilBooks=[];
+ if($('taVersion').value){
+   try{const td=await getJson(`${API}/${$('taVersion').value}/books.json`);tamilBooks=td.books||[];}
+   catch{tamilBooks=[];}
+ }
+ updateChapters();
+}
+function updateChapters(){currentBook=englishBooks.find(b=>b.id===$('bookSelect').value)||englishBooks[0];if(!currentBook)return;const n=Number(currentBook.numberOfChapters||1);$('chapterSelect').innerHTML='';for(let i=1;i<=n;i++){let o=document.createElement('option');o.value=i;o.textContent='Chapter '+i;$('chapterSelect').appendChild(o)}$('chapterSelect').value=String(Math.min(currentChapter,n));}
+async function loadChapter(bookId=$('bookSelect').value,chapter=Number($('chapterSelect').value||1)){
+ currentBook=englishBooks.find(b=>b.id===bookId)||englishBooks[0];if(!currentBook)return;currentChapter=chapter;$('bookSelect').value=currentBook.id;$('chapterSelect').value=String(chapter);
+ const tamilBook=tamilBooks.find(b=>b.id===currentBook.id)||tamilBooks.find(b=>String(bookLabel(b)).toLowerCase()===String(bookLabel(currentBook)).toLowerCase());
+ $('chapterHeading').innerHTML=`<div class="panel"><h2 class="section-title">${esc(bookLabel(currentBook))} ${chapter}</h2><p class="sub">English and Tamil • ${esc($('enVersion').selectedOptions[0]?.textContent||'English')} / ${esc($('taVersion').selectedOptions[0]?.textContent||'Tamil')}</p></div>`;
+ $('chapterResults').innerHTML='<div class="panel"><span class="loading"></span> Loading Scripture…</div>';
+ const enId=$('enVersion').value, taId=$('taVersion').value;
+ try{
+  const en=await getJson(`${API}/${enId}/${currentBook.id}/${chapter}.simple.json`);
+  chapterEnglish=extractVerses(en);
+  chapterTamil=[];
+  if(taId && tamilBook){
+    try{const ta=await getJson(`${API}/${taId}/${tamilBook.id}/${chapter}.simple.json`);chapterTamil=extractVerses(ta);}
+    catch{chapterTamil=[];}
+  }
+  renderChapter();
+  if(taId&&!tamilBook){
+    const note=document.createElement('div');note.className='empty';note.textContent='இந்த தமிழ் மொழிபெயர்ப்பில் இந்தப் புத்தகம் இல்லை. English வசனங்கள் காட்டப்படுகின்றன; Tamil வசனங்கள் இந்தப் புத்தகத்திற்கு கிடைக்கவில்லை. வேறு தமிழ் translation கிடைத்தால் தேர்ந்தெடுக்கலாம்.';$('chapterResults').prepend(note);
+  }else if(taId&&!chapterTamil.length){
+    const note=document.createElement('div');note.className='empty';note.textContent='இந்த அதிகாரத்திற்கான தமிழ் வசனங்கள் தேர்ந்தெடுத்த translation-ல் கிடைக்கவில்லை. English வசனங்கள் கீழே உள்ளன.';$('chapterResults').prepend(note);
+  }
+ }catch(e){$('chapterResults').innerHTML=`<div class="empty">Could not load the English chapter. Check your internet connection or choose another English translation. (${esc(e.message)})</div>`;}
+}
+function extractVerses(data){if(!data)return[];const arr=data.chapter?.content||data.content||data.verses||[];return arr.filter(x=>x.type==='verse'||x.number||x.verse).map(x=>({n:Number(x.number??x.verse),text:typeof x.text==='string'?x.text:(x.content||[]).map(y=>y.text||'').join('')})).filter(x=>x.n&&x.text);}
+function verseCard(ref,en,ta,buttons=true){const d=document.createElement('article');d.className='verse-card';d.innerHTML=`<div class="ref">${esc(ref)}</div>${en?`<div class="language">English</div><div class="verse-text">${esc(en)}</div>`:''}${ta?`<div class="language">தமிழ்</div><div class="verse-text tamil">${esc(ta)}</div>`:''}${buttons?'<div class="actions"><button class="btn secondary save-one">♡ Save</button><button class="btn secondary copy-one">Copy</button></div>':''}`;
+ const save=d.querySelector('.save-one');if(save)save.addEventListener('click',()=>saveVerse({ref,en,ta}));
+ const copy=d.querySelector('.copy-one');if(copy)copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(`${ref}\n${en||''}\n${ta||''}`);copy.textContent='Copied ✓'}catch{copy.textContent='Select and copy text'}});
+ return d;}
+function renderChapter(){const out=$('chapterResults');out.innerHTML='';const tamilMap=new Map(chapterTamil.map(v=>[v.n,v.text]));if(!chapterEnglish.length&&!chapterTamil.length){out.innerHTML='<div class="empty">No verse text was returned for this chapter.</div>';return;}const max=Math.max(...chapterEnglish.map(v=>v.n),...chapterTamil.map(v=>v.n));for(let i=1;i<=max;i++){const e=chapterEnglish.find(v=>v.n===i),t=tamilMap.get(i);if(e||t)out.appendChild(verseCard(`${bookLabel(currentBook)} ${currentChapter}:${i}`,e?.text,t));}}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+$('bookSelect').addEventListener('change',()=>{currentChapter=1;updateChapters()});
+$('chapterSelect').addEventListener('change',()=>{currentChapter=Number($('chapterSelect').value)});
+$('loadChapter').addEventListener('click',()=>loadChapter());
+$('prevChapter').addEventListener('click',()=>{if(!currentBook)return;if(currentChapter>1)loadChapter(currentBook.id,currentChapter-1);else{const i=englishBooks.findIndex(b=>b.id===currentBook.id);if(i>0){currentBook=englishBooks[i-1];updateChapters();loadChapter(currentBook.id,Number(currentBook.numberOfChapters||1));}}});
+$('nextChapter').addEventListener('click',()=>{if(!currentBook)return;if(currentChapter<currentBook.numberOfChapters)loadChapter(currentBook.id,currentChapter+1);else{const i=englishBooks.findIndex(b=>b.id===currentBook.id);if(i<englishBooks.length-1){currentBook=englishBooks[i+1];updateChapters();loadChapter(currentBook.id,1);}}});
+$('enVersion').addEventListener('change',async()=>{await loadBooks();loadChapter()});
+$('taVersion').addEventListener('change',()=>loadChapter());
+const dailyRefs=[['JHN',3,16],['PSA',23,1],['PRO',3,5],['ISA',41,10],['PHP',4,6],['MAT',11,28],['PSA',46,1],['ROM',8,28],['JOS',1,9],['1PE',5,7],['PSA',119,105],['LAM',3,22],['JHN',14,27],['HEB',11,1],['1CO',13,4],['PSA',27,1],['MAT',6,33],['ROM',12,12],['GAL',6,9],['1JN',4,19],['PSA',56,3],['JAS',1,5],['COL',3,23],['EPH',4,32],['PSA',121,1],['2TI',1,7],['JHN',15,5],['PSA',34,8],['MIC',6,8],['NUM',6,24]];
+async function loadDaily(){
+ const day=Math.floor(Date.now()/86400000),r=dailyRefs[((day%dailyRefs.length)+dailyRefs.length)%dailyRefs.length];
+ $('dailyStatus').innerHTML='<span class="loading"></span> Loading today’s verse…';
+ try{
+  const enId=$('enVersion').value,taId=$('taVersion').value;
+  const [en,ta]=await Promise.all([getJson(`${API}/${enId}/${r[0]}/${r[1]}/${r[2]}.json`),taId?getJson(`${API}/${taId}/${r[0]}/${r[1]}/${r[2]}.json`).catch(()=>null):Promise.resolve(null)]);
+  const e=oneVerse(en),t=ta?oneVerse(ta):null;dailyData={ref:en.reference||`${r[0]} ${r[1]}:${r[2]}`,en:e,ta:t};
+  $('dailyStatus').textContent='Today’s Scripture • English & தமிழ்';$('dailyVerse').innerHTML=`<div class="language">English</div><div>${esc(e||'English verse unavailable')}</div>${t?`<div class="language">தமிழ்</div><div class="tamil">${esc(t)}</div>`:'<div class="small">Tamil translation unavailable for this verse in the selected version.</div>'}`;$('dailyRef').textContent=dailyData.ref;
+  $('dailyOpen').onclick=()=>{showTab('read');let b=englishBooks.find(x=>x.id===r[0]);if(b){updateChapters();loadChapter(r[0],r[1]);}};
+  $('dailySave').onclick=()=>saveVerse(dailyData);
+ }catch(e){
+  // Offline/API-failure fallback: show a daily Scripture excerpt instead of an empty card.
+  const fallbackVerses = [
+    {ref:'John 3:16', en:'For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.', ta:'தேவன் உலகத்தில் உள்ள மக்களை மிகவும் நேசித்தார்; அவர்களை இரட்சிக்கத் தமது குமாரனை அளித்தார். அவரை விசுவாசிப்பவர்களுக்கு நித்திய ஜீவன் உண்டு.'},
+    {ref:'Psalm 23:1', en:'The LORD is my shepherd; I shall not want.', ta:'கர்த்தர் என் மேய்ப்பராக இருக்கிறார்; எனக்குக் குறைவில்லை.'},
+    {ref:'Proverbs 3:5', en:'Trust in the LORD with all thine heart; and lean not unto thine own understanding.', ta:'உன் முழு இருதயத்தோடும் கர்த்தரை நம்பு; உன் சொந்த அறிவையே சார்ந்திருக்காதே.'},
+    {ref:'Isaiah 41:10', en:'Fear thou not; for I am with thee: be not dismayed; for I am thy God.', ta:'பயப்படாதே; நான் உன்னோடு இருக்கிறேன். கலங்காதே; நான் உன் தேவன்.'},
+    {ref:'Philippians 4:13', en:'I can do all things through Christ which strengtheneth me.', ta:'எனக்குப் பெலன் கொடுக்கிற கிறிஸ்துவின் மூலம் எல்லாவற்றையும் செய்ய எனக்குப் பெலன் உண்டு.'},
+    {ref:'Matthew 11:28', en:'Come unto me, all ye that labour and are heavy laden, and I will give you rest.', ta:'வருத்தப்பட்டுப் பாரம் சுமக்கிறவர்களே, என்னிடத்தில் வாருங்கள்; நான் உங்களுக்கு இளைப்பாறுதல் தருவேன்.'},
+    {ref:'Psalm 119:105', en:'Thy word is a lamp unto my feet, and a light unto my path.', ta:'உமது வார்த்தை என் கால்களுக்குத் தீபமும், என் பாதைக்கு வெளிச்சமுமாய் இருக்கிறது.'}
+  ];
+  const f=fallbackVerses[Math.floor(Date.now()/86400000)%fallbackVerses.length];
+  dailyData={ref:f.ref,en:f.en,ta:f.ta};
+  $('dailyStatus').textContent='Today’s Scripture • Offline fallback';
+  $('dailyVerse').innerHTML=`<div class="language">English (KJV)</div><div>${esc(f.en)}</div><div class="language">தமிழ் • எளிய பொருள்</div><div class="tamil">${esc(f.ta)}</div><div class="small">Live Bible text could not be reached. This saved verse is shown as a backup.</div>`;
+  $('dailyRef').textContent=f.ref;
+  $('dailyOpen').onclick=()=>{showTab('read');$('referenceInput').value=f.ref;searchReference();};
+  $('dailySave').onclick=()=>saveVerse(dailyData);
+ }
+}
+function oneVerse(d){if(!d)return'';if(typeof d.text==='string')return d.text;const c=d.verses?.[0]||d.chapter?.content?.find(x=>x.type==='verse');return c?.text||'';}
+async function searchReference(){
+ const q=$('referenceInput').value.trim();if(!q)return;
+ $('searchStatus').textContent='Searching…';$('searchResults').innerHTML='';
+ const m=q.match(/^(.+?)\s+(\d+)\s*:\s*(\d+)(?:\s*[-–]\s*(\d+))?$/);
+ if(!m){$('searchStatus').textContent='Please enter a reference like Psalm 22:1 or John 3:16.';return;}
+ const bookName=m[1].toLowerCase().replace(/^psalm$/,'psalms').replace(/^song of songs$/,'song of solomon');
+ const book=englishBooks.find(b=>[b.name,b.title,b.commonName,b.id].some(n=>String(n||'').toLowerCase()===bookName)||String(b.commonName||'').toLowerCase().includes(bookName)||String(b.name||'').toLowerCase().includes(bookName));
+ if(!book){$('searchStatus').textContent='Book not found. Try its English name, for example Psalms or John.';return;}
+ const ch=Number(m[2]),start=Number(m[3]),end=Number(m[4]||m[3]);
+ try{const [en,ta]=await Promise.all([getJson(`${API}/${$('enVersion').value}/${book.id}/${ch}.simple.json`),$('taVersion').value?getJson(`${API}/${$('taVersion').value}/${book.id}/${ch}.simple.json`).catch(()=>null):Promise.resolve(null)]);
+ const ev=extractVerses(en),tv=extractVerses(ta),map=new Map(tv.map(v=>[v.n,v.text]));let found=0;
+ for(let n=start;n<=end;n++){const e=ev.find(v=>v.n===n),t=map.get(n);if(e||t){$('searchResults').appendChild(verseCard(`${bookLabel(book)} ${ch}:${n}`,e?.text,t));found++;}}
+ $('searchStatus').textContent=found?`${found} verse(s) found.`:'No verses found for that reference.';
+ }catch(e){$('searchStatus').textContent='Could not search right now. Check your internet connection.';}
+}
+$('searchRef').addEventListener('click',searchReference);$('referenceInput').addEventListener('keydown',e=>{if(e.key==='Enter')searchReference()});
+$('searchCurrent').addEventListener('click',()=>{const q=$('wordInput').value.trim().toLowerCase();$('searchResults').innerHTML='';if(!q){$('searchStatus').textContent='Type a word or phrase first.';return;}let n=0;for(let i=0;i<Math.max(chapterEnglish.length,chapterTamil.length);i++){const e=chapterEnglish[i],t=chapterTamil.find(v=>v.n===e?.n);if((e?.text||'').toLowerCase().includes(q)||(t?.text||'').toLowerCase().includes(q)){const card=verseCard(`${bookLabel(currentBook)} ${currentChapter}:${e?.n||t?.n}`,e?.text,t?.text);$('searchResults').appendChild(card);n++;}}$('searchStatus').textContent=`${n} matching verse(s) in the currently opened chapter.`;});
+function saveVerse(v){let a=JSON.parse(localStorage.getItem('db_saved')||'[]');if(a.some(x=>x.ref===v.ref)){alert('This verse is already saved.');return;}a.unshift(v);localStorage.setItem('db_saved',JSON.stringify(a));alert('Verse saved!');}
+function renderSaved(){const out=$('savedResults');out.innerHTML='';const a=JSON.parse(localStorage.getItem('db_saved')||'[]');if(!a.length){out.innerHTML='<div class="empty">No saved verses yet. Open a chapter and tap “Save”.</div>';return;}a.forEach((v,i)=>{const c=verseCard(v.ref,v.en,v.ta,false);const b=document.createElement('button');b.className='btn secondary';b.textContent='Remove';b.onclick=()=>{a.splice(i,1);localStorage.setItem('db_saved',JSON.stringify(a));renderSaved()};c.appendChild(b);out.appendChild(c);});}
+function loadJournal(){const d=$('journalDate').value||new Date().toISOString().slice(0,10);$('journalText').value=localStorage.getItem('db_journal_'+d)||'';}
+$('journalDate').addEventListener('change',loadJournal);$('saveJournal').addEventListener('click',()=>{localStorage.setItem('db_journal_'+$('journalDate').value,$('journalText').value);$('journalStatus').textContent='Saved on this device ✓';});$('clearJournal').addEventListener('click',()=>{localStorage.removeItem('db_journal_'+$('journalDate').value);$('journalText').value='';$('journalStatus').textContent='Note cleared for this date.';});
+init();
+</script>
+</body>
+</html>
